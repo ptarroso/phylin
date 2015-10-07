@@ -1,0 +1,24 @@
+Package: phylin
+Type: Package
+Title: Spatial interpolation of genetic data
+Version: 1.0
+Date: 2014-06-06
+Author: Pedro Tarroso, Guillermo Velo-Anton, Silvia Carvalho
+Maintainer: Pedro Tarroso <ptarroso@cibio.up.pt>
+Suggests: geometry
+Description: This package provides functions for the spatial interpolation 
+             of genetic distances between samples. The interpolation is 
+             based on a modified kriging method that accepts a genetic 
+             distance matrix and generates a map of probability of lineage 
+             presence. This package also offers tools to generate a map of 
+             potential contact zones between groups with user-defined 
+             thresholds in the tree to account for old and recent 
+             divergence. Additionally, it has functions for IDW 
+             interpolation using genetic data and midpoints.
+License: GPL (>= 2)
+URL: http://www.r-project.org,
+        http://webpages.icav.up.pt/pessoas/ptarroso/phylin/phylin.html
+Packaged: 2014-07-25 14:47:33 UTC; pedro
+NeedsCompilation: no
+Repository: CRAN
+Date/Publication: 2014-07-25 18:42:31

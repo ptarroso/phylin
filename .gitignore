@@ -1,0 +1,10 @@
+# Files
+TODO.list
+run.R
+compile
+
+# Directories
+backups/
+examples/
+phylin.Rcheck/
+test/
