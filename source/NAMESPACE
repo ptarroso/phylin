@@ -1,2 +1,4 @@
 exportPattern("^[[:alpha:]]+")
-
+S3method(plot, gv)
+S3method(predict, gv)
+S3method(summary, gv)
