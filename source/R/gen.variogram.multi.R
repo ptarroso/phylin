@@ -1,19 +1,6 @@
-gen.variogram.multi <-
+.gen.variogram.multi <-
 function(x, multiY, lag = mean(x)/sqrt(nrow(x)), tol=lag/2,
-         lmax = NA, verbose=TRUE) {
-### This is an experimental version of variogram that takes into
-### account the uncertainty from the all the posterior trees generated
-### It is made not do directly depend on 'ape' package, although it
-### will be needed to prepare the distance matrices before.
-### Note than the tree tip labels must be identical to the real
-### distance column and row labels.
-
-### TODO: This should be a hidden function to gen.variogram, if a
-### list (of distance matrices) is given instead of distance matrix.
-### Maybe also simplify the gen.variogram just to parse arguments
-### and add an aditional function that will do a variogram
-### Must add information to the class, to descriminate if it is
-### multi or single!
+         lmax = NA, bootstraps = 999, verbose=TRUE) {
     
     ## some variable checking
     if (!(class(x) == "matrix"))
@@ -34,7 +21,7 @@ function(x, multiY, lag = mean(x)/sqrt(nrow(x)), tol=lag/2,
         y <- y[rownames(x), colnames(x)]
 
         ## build the variogram
-        gv <- gen.variogram(x, y, lag=lag, tol=tol, lmax=lmax)
+        gv <- gen.variogram.single(x, y, lag=lag, tol=tol, lmax=lmax)
 
         ## Initialize the distrib
         if (is.null(distrib))
@@ -45,7 +32,7 @@ function(x, multiY, lag = mean(x)/sqrt(nrow(x)), tol=lag/2,
         
         if (verbose) {
             ## Displays the error evolution
-            ## error is the sum of squared difference of the median
+            ## error is the sum of squared differences of the median
             ii <- formatC(i, width = nchar(n), format = "d",
                           flag = "0")
             if (i > 1) {
@@ -59,6 +46,25 @@ function(x, multiY, lag = mean(x)/sqrt(nrow(x)), tol=lag/2,
             }
         }
     }
-    gv$gamma <- distrib
+    gv$gamma.mat <- distrib
+    gv$gamma <- apply(distrib, 1, median)
+
+    if (!is.null(bootstraps)) {
+        if (!is.numeric(bootstraps))
+            stop("Bootstraps must be numeric.")
+
+        ## Do some bootstraps to calculate the 95% confidence
+        ## interval for the median
+        bootstrp <- matrix(NA, bootstraps+1, length(gv$gamma))
+        bootstrp[bootstraps+1,] <- gv$gamma
+        for (bt in 1:bootstraps) {
+            sampleBT <- apply(distrib, 1, sample, replace=TRUE)
+            bootstrp[bt,] <- apply(sampleBT, 2, median)
+        }
+        gv$gamma.ci <- apply(bootstrp, 2, quantile,
+                             probs=c(0.05, 0.975))
+
+    }
+    
     return(gv)        
 }

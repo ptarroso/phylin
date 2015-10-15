@@ -1,41 +1,33 @@
 gen.variogram <-
-function(x, y, lag = mean(x)/sqrt(nrow(x)), tol=lag/2, lmax = NA) {
+function(x, y, lag = mean(x)/sqrt(nrow(x)), tol=lag/2, lmax = NA,
+         bootstraps = 999, verbose = TRUE) {
 
-    # some variable checking
+    ## Check x class status and attempt coercion to matrix
     if (!(class(x) == "matrix")) {
-        #warning("X is not a distance matrix. Attempting conversion...")
         x <- as.matrix(x)
     }
-    if (!(class(y) == "matrix")) {
-        #warning("Y is not a distance matrix. Attempting conversion...")
+
+    ## Check if there are multiple genetic distances and
+    ## attempt coercion to matrix
+    multi <- FALSE    
+    if (class(y) == "list") {
+        multi <- TRUE
+        for (i in 1:length(y)) {
+            y[[i]] <- as.matrix(y[[i]])
+        }
+    } else {
         y <- as.matrix(y)
     }
-
-    if (is.na(lmax)) lmax = max(x, na.rm=TRUE)
-    lagv <- seq(0, lmax, lag)
-    gamma <- n <- rep(NA, length(lagv))
-
-    for (i in 1:length(lagv) )
-    {
-        l <- lagv[i]
-
-        #remove duplicates from distance matrix
-        il <- which(x > l-tol & x <= l+tol, arr.ind=TRUE)
-        il <- unique(t(apply(il, 1, sort)))
-
-        n[i] <- nrow(il)
-        if (n[i] != 0) {
-            gamma[i] <- sum(y[il]**2)/(n[i]*2)
-            lagv[i] <- mean(x[il])
-        } else {
-            gamma[i] <- lagv[i] <- NA
-        }
+            
+    if (multi) {
+        gv <- gen.variogram.multi(x, y, lag = lag, tol = tol,
+                                  lmax = lmax,
+                                  bootstraps = bootstraps,
+                                  verbose = verbose)
+    } else {
+        gv <- gen.variogram.single(x, y, lag = lag, tol = tol,
+                                   lmax = lmax)
     }
-
-    # create object gv
-    gv <- list(model=NA, x=x, y=y, lag=lagv, gamma=gamma, n=n, 
-               param=list(lag=lag, tol=tol, lmax=lmax))
-    class(gv) <- 'gv'
 
     gv
 }

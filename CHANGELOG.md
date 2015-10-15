@@ -1,3 +1,11 @@
+Version 1.1.0 UNRELEASED
+------------------------
+
+* Variograms can now be generated with the full tree posterior instead of a single consensus
+tree.
+* Added function to generate the variogram if multiple trees found
+* Added new variogram plot to deal with multiple trees
+
 Version 1.0.1
 -------------
 
