@@ -1,48 +1,66 @@
 \name{gen.variogram}
 \alias{gen.variogram}
 \title{
-    Semi-variogram with the genetic distance matrix
+  Semi-variogram with the genetic distance matrix
 }
 \description{
-    Computes the semi-variance with the real and genetic distances, and with
-    user defined lag parameters.
+  Computes the semi-variance with the real and genetic distances, and
+  with user defined lag parameters.
 }
 \usage{
-gen.variogram(x, y, lag = mean(x)/sqrt(nrow(x)), tol=lag/2, lmax = NA)
+gen.variogram(x, y, lag = mean(x)/sqrt(nrow(x)), tol=lag/2, lmax = NA,
+              bootstraps = 999, verbose = FALSE)
 }
 \arguments{
   \item{x}{
     Real distances matrix.
-}
+  }
   \item{y}{
-    Genetic distances matrix.
-}
+    Single genetic distances matrix or list of genetic distances
+    matrices.
+  }
   \item{lag}{
-    Real distance corresponding to the desired 'lag' interval. This is used to
-    calculate lag centers from 0 to 'lmax'.
-}
+    Real distance corresponding to the desired 'lag' interval. This is
+    used to calculate lag centers from 0 to 'lmax'.
+  }
   \item{tol}{
     Tolerance for the lag center to search for pairs ('lag'-'tol', 
     'lag'+'tol'). 
-}
+  }
   \item{lmax}{
-    Maximum distance for lag centers. Pairs with distances higher than 'lmax'
-    are not included in the calcualtion of the semi-variance. If 'lmax' is NA
-    (default) then is used the maximum distance between samples.
-}
+    Maximum distance for lag centers. Pairs with distances higher than
+    'lmax' are not included in the calcualtion of the semi-variance. If
+    'lmax' is NA (default) then is used the maximum distance between
+    samples.
+  }
+  \item{bootstraps}{
+    This is the number of bootstraps used to calculate 95\% confidence
+    interval for the median, when multiple genetic distances are given.
+    With a single genetic distance, this parameter is ignored.
+  }
+  \item{verbose}{
+    Boolean for verbosity. When TRUE and with multiple genetic distance
+    matrices, a log of error evolution is printed.
+  }
 }
 \details{
-    This function produces a table with real lag centers and semi-variance. The
-    formula to calculate semi-variance, \eqn{\gamma(h)}, is:
+  This function produces a table with real lag centers and
+  semi-variance. The formula to calculate semi-variance,
+  \eqn{\gamma(h)}, is:
 
         \deqn{\gamma(h) = {\frac{1}{2 n(h)}} \sum_{i=1}^{n}[z(x_i + h) - 
         z(x_i)]^2}{y(h) = 1/(2*n(h)) * sum((z(xi+h) - z(xi))**2)}
 
-    where \eqn{n(h)} is the number of pairs with the lag distance \eqn{h} 
-    between them, and \eqn{z} is the value of the sample \eqn{x} at the the 
-    location \eqn{i}. The difference between sample \eqn{z(x_i+h)}{x(xi+h)}
-    and sample \eqn{z(x_i)}{x(xi)} is assumed to correspond to their genetic
-    distance.
+   where \eqn{n(h)} is the number of pairs with the lag distance \eqn{h} 
+   between them, and \eqn{z} is the value of the sample \eqn{x} at the
+   the location \eqn{i}. The difference between sample
+   \eqn{z(x_i+h)}{x(xi+h)} and sample \eqn{z(x_i)}{x(xi)} is assumed to
+   correspond to their genetic distance.
+
+   Multiple genetic distance matrices can be used. In this case, a
+   variogram is computed for each genetic distance and the results
+   summarised by the median and a 95\% confidence interval calculated
+   with bootstraps. 
 }
 \value{
     Returns a 'gv' object with the input data, lag centers and semi-variance.

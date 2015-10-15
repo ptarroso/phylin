@@ -1,6 +1,6 @@
 gen.variogram <-
 function(x, y, lag = mean(x)/sqrt(nrow(x)), tol=lag/2, lmax = NA,
-         bootstraps = 999, verbose = TRUE) {
+         bootstraps = 999, verbose = FALSE) {
 
     ## Check x class status and attempt coercion to matrix
     if (!(class(x) == "matrix")) {
@@ -20,12 +20,12 @@ function(x, y, lag = mean(x)/sqrt(nrow(x)), tol=lag/2, lmax = NA,
     }
             
     if (multi) {
-        gv <- gen.variogram.multi(x, y, lag = lag, tol = tol,
+        gv <- .gen.variogram.multi(x, y, lag = lag, tol = tol,
                                   lmax = lmax,
                                   bootstraps = bootstraps,
                                   verbose = verbose)
     } else {
-        gv <- gen.variogram.single(x, y, lag = lag, tol = tol,
+        gv <- .gen.variogram.single(x, y, lag = lag, tol = tol,
                                    lmax = lmax)
     }
 

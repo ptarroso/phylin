@@ -1,7 +1,7 @@
 Package: phylin
 Type: Package
-Title: Spatial interpolation of genetic data
-Version: 1.0.1
+Title: Spatial Interpolation of Genetic Data
+Version: 1.1.0
 Date: 2015-10-08
 Author: Pedro Tarroso, Guillermo Velo-Anton, Silvia Carvalho
 Maintainer: Pedro Tarroso <ptarroso@cibio.up.pt>

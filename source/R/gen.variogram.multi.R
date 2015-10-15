@@ -21,7 +21,7 @@ function(x, multiY, lag = mean(x)/sqrt(nrow(x)), tol=lag/2,
         y <- y[rownames(x), colnames(x)]
 
         ## build the variogram
-        gv <- gen.variogram.single(x, y, lag=lag, tol=tol, lmax=lmax)
+        gv <- .gen.variogram.single(x, y, lag=lag, tol=tol, lmax=lmax)
 
         ## Initialize the distrib
         if (is.null(distrib))

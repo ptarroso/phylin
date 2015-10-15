@@ -1,10 +1,12 @@
 \name{plot.gv}
 \alias{plot.gv}
 \title{
-    Plot 'gv' object
+    Plot a 'gv' object
 }
 \description{
-    Plot the semi-variogram in a gv object.
+  Plot the semi-variogram in a gv object. If a multiple genetic
+  distances are found, it plots the median value and the 95\% confidence
+  interval for the median.
 }
 \usage{
 \method{plot}{gv}(x, line.res = 100, pch=1, legend=TRUE, leg.x=NA, leg.y=NA, 
