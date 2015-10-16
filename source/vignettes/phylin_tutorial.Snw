@@ -94,7 +94,7 @@ Now we have in our session all data needed to build the genetic surfaces (lineag
 
 \section{Variogram}
 
-The variogram (commonly shortened from semi-variogram) is a way to describe the spatial dependence of the data by plotting semi-variance against distance. By spatial dependence it is understood the statistical dependence of the samples based on their locations. The variogram will also indicate the distance from where the samples may be considered independent, i.e., where there is no spatial autocorrelation. Building a variogram is easy in \emph{phylin}. We will use the function \verb'gen.variogram' with matrices of real distances and genetic distances. To generate the matrix of real distance we will be using the \verb'dist' function from R base functions:
+The variogram (commonly shortened from semi-variogram) is a way to describe the spatial dependence of the data by plotting semi-variance against geographic distance. By spatial dependence it is understood the statistical dependence of the samples based on their locations. The variogram will also indicate the distance from where the samples may be considered independent, i.e., where there is no spatial autocorrelation. Building a variogram is easy in \emph{phylin}. We will use the function \verb'gen.variogram' with matrices of real distances and genetic distances. To generate the matrix of real distance we will be using the \verb'dist' function from R base functions:
 
 <<realdist, echo=TRUE>>=
 r.dist <- dist(vipers[,1:2])
@@ -109,6 +109,14 @@ gv <- gen.variogram(r.dist, d.gen)
 Additional arguments to \verb'gen.variogram' define the lag size and maximum distances to analyze. Each pair of points will be classified in the same lag if their distance is within the lag +/- lag tolerance. This is very important so we can have multiple points to define the semi-variance for each lag. Samples with long distances are usually less frequent, and the number of points available for higher lags may be very small. The maximum lag is used in these cases to define the maximum distance to calculate lags in order to avoid misleadings from small n. 
 
 This function provides a small change of the usual kriging method. Instead of using sample locations with a continuous value for each sample to interpolate (e.g. altitude value) and calculate the pairwise differences, we use the genetic distance matrix as the pairwise difference due to the lack of continuous value at each sample point. This allows to avoid the use of midpoints between samples to project the genetic distance in space.
+
+Phylin allows to generate a variogram from the posterior probability distribution of trees instead of a single consensus tree (since v1.1.0). In this case, the variogram will show the median and its 95\% interval calculated with bootstraps. A small extra code is needed to generate such variogram. A list of distances matrices must be built from the multiple tree instead of a single matrix. The example data set included with phylin does not include multiple genetic distance matrices, so the following code is just illustrative of the process of generating cophenetic distances matrices from phylogenetic trees. 
+
+<<multipleVariogram, eval=FALSE, echo=TRUE>>=
+# Assuming that the names in the tree do not need processing 
+# to correspond to names in the real distance matrix.
+d.gen.multi <- lapply(trees, cophenetic)
+@
 
 We can now plot the variogram and check the structure. 
 
