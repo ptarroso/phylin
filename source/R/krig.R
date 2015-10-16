@@ -3,6 +3,11 @@ function(values, coords, grid, gv, m=NA, cv=FALSE, clamp=FALSE, verbose=TRUE) {
 
     if (!is.vector(values)) stop("Values must be a vector.")
 
+    if (!class(grid) == "data.frame") {
+        ## Attempt coercion to data.frame
+        grid <- as.data.frame(grid)
+    }
+    
     n <- length(values) # number of samples
     ni <- nrow(grid)   # number of locations to interpolate
 

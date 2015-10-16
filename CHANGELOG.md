@@ -1,11 +1,19 @@
-Version 1.1.0 UNRELEASED
-------------------------
+Version 1.1.0
+-------------
 
+	- Major changes
+		
 	* Variograms can now be generated with the full (or part of) tree
 	posterior probability instead of a single consensus tree.
 	* Added a generic function to generate the variogram if a single
 	or multiple trees are found.
-	* Added new variogram plot to deal with multiple trees. 
+	* Added new variogram plot to deal with multiple trees.
+
+	- Minor bugfix
+	
+	* If the variogram produces NAs, a warning is thrown
+	* Krig function does a check to verify if grid coordinates are
+	given as a data.frame.
 	
 
 Version 1.0.1

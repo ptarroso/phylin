@@ -29,6 +29,12 @@ function(x, y, lag = mean(x)/sqrt(nrow(x)), tol=lag/2, lmax = NA,
                                    lmax = lmax)
     }
 
+    ## Throw a warning if lag used generates NAs
+    if (sum(is.na(gv$gamma)) > 0) {
+        warning("The variogram contains NAs.",
+                "Consider adjusting the lag.")
+    }    
+
     gv
 }
 
