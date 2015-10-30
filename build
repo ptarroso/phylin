@@ -1,3 +1,0 @@
-rm phylin*.tar.gz
-R CMD build source
-R CMD check --as-cran `ls phylin*tar.gz`
