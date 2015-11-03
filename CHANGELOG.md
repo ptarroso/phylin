@@ -1,3 +1,7 @@
+# Version 1.1.1
+
+* Explicit declaration of imports in NAMESPACE to avoid a NOTE during CRAN check.
+
 # Version 1.1.0
 
 ## Major changes
