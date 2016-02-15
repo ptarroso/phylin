@@ -14,9 +14,15 @@ function(x, y, lag = mean(x)/sqrt(nrow(x)), tol=lag/2, lmax = NA,
         multi <- TRUE
         for (i in 1:length(y)) {
             y[[i]] <- as.matrix(y[[i]])
-        }
+ 
+            if (!all(dim(y[[i]]) == dim(x)))
+                stop("Dimensions of x and y do not match.")
+       }
     } else {
         y <- as.matrix(y)
+
+        if (!all(dim(y) == dim(x)))
+            stop("Dimensions of x and y do not match.")
     }
             
     if (multi) {

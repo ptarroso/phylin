@@ -1,11 +1,11 @@
 Package: phylin
 Type: Package
 Title: Spatial Interpolation of Genetic Data
-Version: 1.1.1
+Version: 1.2.0
 Date: 2015-10-08
 Author: Pedro Tarroso, Guillermo Velo-Anton, Silvia Carvalho
 Maintainer: Pedro Tarroso <ptarroso@cibio.up.pt>
-Suggests: geometry
+Suggests: geometry,raster,gdistance
 Description: The spatial interpolation of genetic distances between
 	     samples is based on a modified kriging method that
 	     accepts a genetic distance matrix and generates a map of

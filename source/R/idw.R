@@ -1,7 +1,7 @@
-idw <-
-function(values, coords, grid, method="Shepard", p=2, R=2, N=15) {
+idw <- function(values, coords, grid, method="Shepard", p=2, R=2, N=15,
+                distFUN=geoDist, ...) {
 
-    d.real <- real.dist(coords, grid)
+    d.real <- distFUN(from=grid, to=coords, ...)
     dimensions <- dim(d.real)
 
     methods <- c("Shepard", "Modified", "Neighbours")

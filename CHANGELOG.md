@@ -1,3 +1,8 @@
+# Version 1.2.0
+
+* Improve distance calculations with resistance/friction information using 'gdistance' package.	
+
+	
 # Version 1.1.1
 
 * Explicit declaration of imports in NAMESPACE to avoid a NOTE during CRAN check.
