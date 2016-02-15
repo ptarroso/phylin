@@ -1,7 +1,7 @@
 # Version 1.2.0
 
 * Improve distance calculations with resistance/friction information using 'gdistance' package.	
-* The new "cost.krig" function was added and is the main function for interpolation. The old "krig" function is just a wrapper of the "cost.krig" with geographical distances.
+* The "krig" function was modified to accept a distance function to calculate distances. The 'default' uses simple euclidean distances between coordinates to maintain compatibility with code for previous versions. 
 	
 # Version 1.1.1
 

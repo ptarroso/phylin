@@ -1,16 +1,4 @@
-krig <- function(values, coords, grid, gv, m=NA,
-                 cv=FALSE, clamp=FALSE, verbose=TRUE) {
-
-    ## Wrapper for 'cost.krig' to maintain compatibility with the
-    ## previous versions. It uses the "geoDist" function to calculate
-    ## eucledian geographical distances between points.
-
-    cost.krig(values=values, coords=coords, grid=grid, gv=gv,
-              distFUN=geoDist, m=m, cv=cv, clamp=clamp,
-              verbose=verbose)
-}
-
-cost.krig <- function(values, coords, grid, gv, distFUN, ...,
+krig <- function(values, coords, grid, gv, distFUN=geo.dist, ...,
                      m=NA, cv=FALSE, clamp=FALSE, verbose=TRUE) {
 
     if (!is.vector(values)) stop("Values must be a vector.")
@@ -53,8 +41,6 @@ cost.krig <- function(values, coords, grid, gv, distFUN, ...,
     }
 }
 
-
-    
 .krig <- function(values, C, grdDist, gv,
                   m=NA, clamp=FALSE, verbose=FALSE) {
 
@@ -118,8 +104,3 @@ cost.krig <- function(values, coords, grid, gv, distFUN, ...,
 
     return(list(cv=cv, MSE=MSE))
 }
-
-
-    
-
-

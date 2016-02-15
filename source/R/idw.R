@@ -1,5 +1,5 @@
 idw <- function(values, coords, grid, method="Shepard", p=2, R=2, N=15,
-                distFUN=geoDist, ...) {
+                distFUN=geo.dist, ...) {
 
     d.real <- distFUN(from=grid, to=coords, ...)
     dimensions <- dim(d.real)
@@ -20,9 +20,9 @@ idw <- function(values, coords, grid, method="Shepard", p=2, R=2, N=15,
         w <- 1/newdist**p
     }
 
-    # To allow the idw to act on points with same coordinate, rows are checked
-    # for infinite weights. When found, points with Inf are 1 and all others 
-    # have 0 weight
+    ## To allow the idw to act on points with same coordinate, rows
+    ## are checked for infinite weights. When found, points with Inf
+    ## are 1 and all others have 0 weight
     for (i in 1:nrow(w)) {
         if (sum(is.infinite(w[i,])) > 0){
             w[i,!is.infinite(w[i,])] <- 0

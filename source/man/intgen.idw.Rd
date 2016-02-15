@@ -57,7 +57,13 @@ intgen.idw(d.real, d.gen, method = "Shepard", p = 2, R = 2, N = 15)
         A maximum ammount of \eqn{N} neighbours is allowed to the weight 
         calculation following Shepard method.
     }
-    }
+  }
+
+  The functions 'intgen.idw' and 'idw' are similar but whereas the first
+  interpolate all samples to a grid-based coordinates, the second
+  interpolates a single set of values. Although 'idw' can be used to
+  generate the same results, the 'intgen.idw' should be faster (see the
+  examples).
 }
 \value{
     This function returns a matrix containing all interpolated values for each
@@ -83,7 +89,7 @@ intgen.idw(d.real, d.gen, method = "Shepard", p = 2, R = 2, N = 15)
 
     # create a matrix of distances from sample points (columns) to all
     # grid pixels
-    rd <- real.dist(vipers[,1:2], grid)
+    rd <- geo.dist(grid, vipers[,1:2])
 
     #interpolate with idw
     result <- intgen.idw(rd, d.gen)
@@ -102,6 +108,21 @@ intgen.idw(d.real, d.gen, method = "Shepard", p = 2, R = 2, N = 15)
         cex <- (d.gen[,i]-min(d.gen[,i]))/(max(d.gen[,i])-min(d.gen[,i]))
         points(vipers[,1:2], cex=cex+0.5)
     }
+
+\dontrun{
+    # Compare 'idw' with 'intgen.idw' to generate the same results.
+    # NOTE: it may take a few minutes to run.
+    result2 <- matrix(NA, nrow=nrow(grid), ncol=nrow(vipers))
+    for (i in 1:nrow(vipers)) {
+        values <- d.gen[i,]
+        intpl <- idw(values, vipers[,1:2], grid)
+        result2[,i] <- intpl[,1]
+    }
+    colnames(result2) <- rownames(vipers)
+
+    # compare all items in the two matrices to check equality:
+    all(result == result2)
+}
 }
 \keyword{ idw }
 \keyword{ interpolation }

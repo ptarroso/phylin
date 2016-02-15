@@ -8,7 +8,8 @@
     The interpolation is executed to the table of coordinates given. 
 }
 \usage{
-krig(values, coords, grid, gv, m=NA, cv=FALSE, clamp = FALSE, verbose=TRUE)
+krig(values, coords, grid, gv, distFUN = geo.dist, ..., m=NA, cv=FALSE,
+     clamp = FALSE, verbose = TRUE)
 }
 \arguments{
   \item{values}{
@@ -23,6 +24,17 @@ krig(values, coords, grid, gv, m=NA, cv=FALSE, clamp = FALSE, verbose=TRUE)
 }
   \item{gv}{
     A fitted model to variogram as given by 'gv.model' function.
+  }
+    \item{distFUN}{
+    Distance function used to calculate distances between locations.
+    The default is 'geo.dist' which calculates simple euclidean
+    distances between the locations. This function must have a 'from'
+    and a 'to' arguments to specify, respectively, the source and
+    destination localities. Other functions can be given to include,
+    for instance, a landscape resistance (see examples and vignette).
+}
+  \item{...}{
+    Other arguments to be passed to distFUN.
 }
   \item{m}{
     A value for the mean. When the mean is known and given, a simple kriging 
@@ -49,6 +61,19 @@ krig(values, coords, grid, gv, m=NA, cv=FALSE, clamp = FALSE, verbose=TRUE)
     to determine the weight of the sampled points on the location to 
     predict a value.
 
+    The most usual kriging is performed with geographical distances
+    between localities (samples and grid). The default function is the
+    'geo.dist' that calculate simple euclidean distances. However, the
+    'krig' function allows to provide user-defined distance functions to
+    calculate other kind of distances. A landscape resistance, for
+    instance, may be used to calculate cost distances between points and
+    to be used in the interpolation process. The same distance function
+    provided here has to be used before, to produce the variogram. The
+    function 'distFUN' has to have the arguments 'from' and 'to' to
+    use as source and destination coordinates, respectively. It may have
+    other arguments that can be passed to the function. See the vignette
+    for a exhaustive example on how to use this functionality.  
+    
     Cross-validation is computed by leaving each of the observation in 'values' 
     out of kriging and predict for the same location. A mean squared error 
     (MSE) is computed using the original observation and the predicted value.
@@ -76,7 +101,7 @@ krig(values, coords, grid, gv, m=NA, cv=FALSE, clamp = FALSE, verbose=TRUE)
     \code{plot.gv}
     \code{predict.gv}
     \code{idw}
-    \code{intgen.idw}
+    \code{\link{intgen.idw}}
 }
 \examples{
 data(vipers)

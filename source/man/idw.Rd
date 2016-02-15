@@ -10,7 +10,8 @@
     different methods available for weight calculation.
 }
 \usage{
-idw(values, coords, grid, method = "Shepard", p = 2, R = 2, N = 15)
+idw(values, coords, grid, method = "Shepard", p = 2, R = 2, N = 15,
+    distFUN = geo.dist, ...)
 }
 \arguments{
   \item{values}{
@@ -37,6 +38,16 @@ idw(values, coords, grid, method = "Shepard", p = 2, R = 2, N = 15)
 }
   \item{N}{
     Maximum number of neighbours to use with Shepard with neighbours.
+}
+  \item{distFUN}{
+    Distance function used to calculate distances between locations.
+    The default is 'geo.dist' which calculates simple euclidean
+    distances between the locations. This function must have a 'from'
+    and a 'to' arguments to specify, respectively, the source and
+    destination localities.
+}
+  \item{...}{
+    Other arguments to be passed to distFUN.
 }
 }
 \details{
@@ -81,7 +92,8 @@ idw(values, coords, grid, method = "Shepard", p = 2, R = 2, N = 15)
     Pedro Tarroso <ptarroso@cibio.up.pt>
 }
 \seealso{
-    \code{\link{intgen.idw}}
+  \code{\link{intgen.idw}}
+  \code{\link{krig}}
 }
 \examples{
 data(vipers)

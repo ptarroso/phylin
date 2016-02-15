@@ -55,7 +55,7 @@ data(grid)
 
 # create a matrix of distances from sample points (columns) to all
 # grid pixels
-rd <- real.dist(vipers[,1:2], grid)
+rd <- geo.dist(grid, vipers[,1:2])
 
 #interpolate with idw
 result <- intgen.idw(rd, d.gen)

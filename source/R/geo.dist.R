@@ -1,4 +1,4 @@
-geoDist <- function(from, to) {
+geo.dist <- function(from, to) {
     dst <- matrix(NA, nrow=nrow(from), ncol=nrow(to))
     dimnames(dst) <- list(rownames(from), rownames(to))
     for (i in 1:nrow(from))

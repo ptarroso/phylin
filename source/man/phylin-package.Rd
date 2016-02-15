@@ -19,8 +19,8 @@
 \tabular{ll}{
 Package: \tab phylin\cr
 Type: \tab Package\cr
-Version: \tab 1.1.1\cr
-Date: \tab 2015-10-08\cr
+Version: \tab 1.2.0\cr
+Date: \tab 2016-02-15\cr
 License: \tab GPL-2\cr
 }
     The kriging algorithm uses a model fitted to the semi-variogram to weight
@@ -30,10 +30,17 @@ License: \tab GPL-2\cr
     A map for the lineage can be generated using only a vector that define if
     each point belong to the a lineage or not.
 
+    Since version 1.2, the kriging interpolation can be performed taking
+    into consideration a cost distance instead of simple geographical
+    distances between points. This can help in cases where a landscape
+    resistance explains better the genetic distances between samples
+    than the geographic distances alone.
+
     The IDW can be used to interpolate the genetic distance of each sample 
     against the others, or to interpolate genetic diverge at midpoints between
     samples. The interpolated value at certain location is obtained by 
-    weighting with the distances to the avaialable samples.
+    weighting with the distances to the avaialable samples. Similarly to
+    kriging, these distance can be based on a cost distance calculation.
 
 }
 \author{
