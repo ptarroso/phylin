@@ -4,6 +4,7 @@
 * The "krig" function was modified to accept a distance function to calculate distances. The 'default' uses simple euclidean distances between coordinates to maintain compatibility with code for previous versions. 
 * Plot method for 'gv' was duplicated and is now corrected.
 * Plotting gv with multiple trees now displays CI bars instead of lines.	
+* Bug corrected: plot.gv wasn't displaying the variogram correctly if NA were present.
 	
 # Version 1.1.1
 

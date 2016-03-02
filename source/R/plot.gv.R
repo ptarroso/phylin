@@ -11,13 +11,14 @@ function(x, line.res=100, pch=1,
     if ("gamma.mat" %in% names(x)) multi <- TRUE
 
     ## Get all distance classes to X-axis
-    X <- x$lag[!is.na(x$lag)] 
-    Y <- x$gamma[!is.na(x$gamma)]
+    X <- x$lag 
+    Y <- x$gamma
 
     # Check if a model is present
     mtest <- mtest.gv(x)
     if (mtest) {
-        xx <- seq(0, ceiling(max(X)), length.out = line.res)
+        xx <- seq(0, ceiling(max(X, na.rm=TRUE)),
+                  length.out = line.res)
         yy <- predict(x, xx)
     }
 
@@ -29,11 +30,11 @@ function(x, line.res=100, pch=1,
     plot.new()
 
     ## Get X- and Y- axes ranges
-    x.range <- c(0, max(X))
-    mY <- max(Y)
-    if (multi) mY <- max(x$gamma.ci[2,])
+    x.range <- c(0, max(X, na.rm=TRUE))
+    mY <- max(Y, na.rm=TRUE)
+    if (multi) mY <- max(x$gamma.ci[2,], na.rm=TRUE)
     if (mtest) {
-        y.range <- c(0, max(c(mY,yy)))
+        y.range <- c(0, max(c(mY,yy), na.rm=TRUE))
     } else {
         y.range <- c(0, mY)
     }
