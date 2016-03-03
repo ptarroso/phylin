@@ -9,8 +9,9 @@
   interval for the median.
 }
 \usage{
-\method{plot}{gv}(x, line.res = 100, pch=1, legend=TRUE, leg.x=NA, leg.y=NA, 
-                  leg.cex=1, ...)
+\method{plot}{gv}(x, line.res = 100, pch=1, legend=TRUE, leg.x=NA,
+                  leg.y=NA, leg.cex=1, bar.length=0.1, bar.col="gray",
+                  bar.lty=par("lty"), ...)
 }
 \arguments{
   \item{x}{
@@ -35,6 +36,17 @@
 }
   \item{leg.cex}{
     Multiplication factor for the legend symbol size.
+}
+  \item{bar.length}{
+    If multiple trees are given, confidence interval bars are ploted. The
+    horizontal length of the line at both bar tips is defined with this
+    parameter (defaults to 0.1). 
+}
+  \item{bar.col}{
+    The color of the bars when multiple trees are given.
+}
+  \item{bar.lty}{
+    The line type for the bars when multiple tree are given.
 }
   \item{\dots}{
     Further plotting arguments to be passed.
