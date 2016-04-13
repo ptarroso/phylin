@@ -16,9 +16,11 @@ function(x, multiY, lag = mean(x)/sqrt(nrow(x)), tol=lag/2,
 
     for (i in 1:n) {
         y <- multiY[[i]]
-        
-        ## attempt to order the genetic distance with real dist mat
-        y <- y[rownames(x), colnames(x)]
+
+        if (!(is.null(rownames(x)) | is.null(colnames(x))))
+            ## attempt to order the genetic distance with real dist
+            ## matrix dimnames, if names exist in x.
+            y <- y[rownames(x), colnames(x)]
 
         ## build the variogram
         gv <- .gen.variogram.single(x, y, lag=lag, tol=tol, lmax=lmax)
@@ -37,7 +39,7 @@ function(x, multiY, lag = mean(x)/sqrt(nrow(x)), tol=lag/2,
                           flag = "0")
             if (i > 1) {
                 newMedian <- apply(distrib[,1:i], 1, median)
-                err <- sum((newMedian - oldMedian)**2)
+                err <- sum((newMedian - oldMedian)**2, na.rm = TRUE)
                 cat(ii, ' - ', err, "\n")
                 oldMedian <- newMedian
             } else {
@@ -62,7 +64,7 @@ function(x, multiY, lag = mean(x)/sqrt(nrow(x)), tol=lag/2,
             bootstrp[bt,] <- apply(sampleBT, 2, median)
         }
         gv$gamma.ci <- apply(bootstrp, 2, quantile,
-                             probs=c(0.05, 0.975))
+                             probs=c(0.05, 0.975), na.rm =TRUE)
 
     }
     
