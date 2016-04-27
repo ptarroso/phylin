@@ -1,3 +1,9 @@
+# Version 1.2.1
+* Improved variogram model fitting in function gv.model (and related functions mtest.gv and predict.gv)
+* Added new models (pentaspherical and cubic)
+* Improved the calculation of the linear model with sill
+* Improved the nls fitting
+
 # Version 1.2.0
 
 * Improve distance calculations with resistance/friction information using 'gdistance' package.	

@@ -1,11 +1,12 @@
 gv.model <- function(gv, model='spherical', sill=NA, 
-                     range=NA, nugget=0, slope=NA, ctrl=nls.control()) {
+                     range=NA, nugget=0, ctrl=nls.control()) {
 
     dt <- data.frame(x=gv$lag[!is.na(gv$lag)], 
                      y=gv$gamma[!is.na(gv$gamma)])
 
-    models <- c("gaussian", "exponential", "spherical", "linear")
-    model  <- agrep(model, models)
+    models <- c("gaussian", "exponential", "spherical",
+                "pentaspherical", "cubic", "linear")
+    model  <- match.arg(model, models)
 
     # add additional info to object gv
     if(!mtest.gv(gv)) gv$model <- list()
@@ -13,74 +14,62 @@ gv.model <- function(gv, model='spherical', sill=NA,
 
     fit <- NULL
 
-    if (model %in% 1:3) {
-        # Prepare start list for nls
-        start <- list()
-        if (is.na(sill)) 
-            start[['S']] <- max(dt$y) else S <- sill
-        if (is.na(range))
-            start[['R']] <- min(dt$x[dt$y == max(dt$y)]) else R <- range
-        if (is.na(nugget))
-            start[['N']] <- 0 else N <- nugget
-
-        if (length(start) > 0) {
-            if (model == 1) {
-                # Fit Gaussian model
-                fit <- nls(y ~ N + (S-N) * (1-exp(-3*(x**2)/(R**2))), 
-                           data=dt, control=ctrl, 
-                           start=start)
-            } else if (model == 2) {
-                # Fit exponential model (decay increasing form)
-                fit <- nls(y ~ N + (S-N)*(1-exp(-x/(R))), 
-                           data=dt, control=ctrl, 
-                           start=start)
-            } else if (model == 3) {
-                # Fit spherical
-                fit <- nls(y ~ N+(S-N)*(((3*(x))/(2*R))-((x)**3/(2*R**3))), 
-                           data=dt, control=ctrl, 
-                           start=start)
-            }
-        }
-
-        cf <- coef(fit)
-        if ('S' %in% names(cf)) 
-            gv$model$sill <- cf[['S']] else gv$model$sill <- S
-        if ('N' %in% names(cf)) 
-            gv$model$nugget <- cf[['N']] else gv$model$nugget <- N
-        if ('R' %in% names(cf)) 
-            gv$model$range <- cf[['R']] else gv$model$range <- R
-
-    } else {
-        start = list()
-        if (is.na(nugget)) 
-            start[['N']] <- 0 else N <- nugget
-        if (is.na(slope))  
-            start[['Sl']] <- 1 else Sl <- slope
-        if (is.na(range)) {
-            ndt <- dt
-            if (is.na(sill)) S <- max(dt$y) else S <- sill
-        } else {
-            ndt <- dt[dt$x<range,]
-            if (is.na(sill)) S <- mean(dt$y[dt$x >= range]) else S <- sill
-        }
- 
-        if (length(start) > 0) {
-            # fit linear with points < range
-            fit <- nls(y ~ N + Sl * x,
-                       data=ndt, control=ctrl,
+    ## Prepare start list for nls
+    start <- list()
+    if (is.na(sill)) 
+        start[['S']] <- max(dt$y) else S <- sill
+    if (is.na(range))
+        start[['R']] <- min(dt$x[dt$y == max(dt$y)]) else R <- range
+    if (is.na(nugget))
+        start[['N']] <- 0 else N <- nugget
+    
+    if (length(start) > 0) {
+        if (model == "gaussian") {
+            ## Fit Gaussian model to empirical variogram
+            fit <- nls(y ~ N + (S-N) * (1-exp(-3*(x**2)/(R**2))),
+                       data=dt, control=ctrl, 
+                       start=start)
+            
+        } else if (model == "exponential") {
+            ## Fit exponential model (decay increasing form)
+            fit <- nls(y ~ N + (S-N)*(1-exp(-x/(R))),
+                       data=dt, control=ctrl, 
+                       start=start)
+            
+        } else if (model == "spherical") {
+            ## Fit spherical to empirical variogram
+            fit <- nls(y ~ ifelse(x<=R, N+(S-N)*(((3*(x))/(2*R))-((x)**3/(2*R**3))), S),
+                       data=dt, control=ctrl, 
+                       start=start)
+            
+        } else if (model == "pentaspherical") {
+            ## Fit pentaspherical to empirical variogram
+            fit <- nls(y ~ ifelse(x<=R, N+(S-N)*(((15/8)*(x/R)) - ((5/4)*(x/R)**3) + ((3/8)*(x/R)**5)), S),
+                       data=dt, control=ctrl, 
+                       start=start)
+            
+        } else if (model == "cubic") {
+            ## Fit cubic model to empirical variogram
+            fit <- nls(y ~ ifelse(x<=R, N+(S-N)*(7*(x/R)**2 - (35/4)*(x/R)**3 + (7/2)*(x/R)**5 - (3/4)*(x/R)**7), S),
+                       data=dt, control=ctrl, 
+                       start=start)
+            
+        } else if (model == "linear") {
+            ## Fit linear model to empirical variogram
+            fit <- nls(y ~ ifelse(x<=R, ((S-N)/R)*x+N, S),
+                       data=dt, control=ctrl, 
                        start=start)
         }
-
-        gv$model$sill <- S
-        cf <- coef(fit)
-        if ('N' %in% names(cf)) 
-            gv$model$nugget <- cf[['N']] else gv$model$nugget <- N
-        if ('Sl' %in% names(cf)) 
-            gv$model$slope <- cf[['Sl']] else gv$model$slope <- Sl
-        # estimate range by the model
-        gv$model$range <- (gv$model$sill - gv$model$nugget) / gv$model$slope
     }
 
+    cf <- coef(fit)
+    if ('S' %in% names(cf)) 
+        gv$model$sill <- cf[['S']] else gv$model$sill <- S
+    if ('N' %in% names(cf)) 
+        gv$model$nugget <- cf[['N']] else gv$model$nugget <- N
+    if ('R' %in% names(cf)) 
+        gv$model$range <- cf[['R']] else gv$model$range <- R
+    
     class(gv) <- 'gv'
 
     # add residuals to gv

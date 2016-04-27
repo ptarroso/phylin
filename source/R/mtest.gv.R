@@ -9,12 +9,10 @@ function(gv) {
         } else {
             stop("Model in 'gv' has no parameters")
         }
+    } else if (length(gv$model) == 4) {
+        mtest <- TRUE
     } else {
-        if (gv$model$type %in% 1:3 & length(gv$model) == 4) {
-            mtest <- TRUE
-        } else if (gv$model$type == 4 & length(gv$model) == 5) {
-            mtest <- TRUE
-        }
+        stop("Wrong number of model parameters. Three were expected.")
     }
     mtest
 }

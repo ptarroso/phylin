@@ -173,12 +173,13 @@ The spatial interpolation in \emph{phylin} is achieved by kriging. This method u
 
 <<lin, echo = TRUE>>=
 lin <- as.integer(vipers$lin == 1) 
-int.krig <- krig(lin, vipers[,1:2], grid, gv, clamp = TRUE)
+int.krig <- krig(lin, vipers[,1:2], grid, gv, clamp = TRUE, 
+                 verbose=FALSE)
 @
 
 %$
 
-For the \verb'krig' function we have used the lineage classification, the sample coordinates in column 1 and 2 from \verb'vipers' table, the \verb'grid' table defining the area to interpolate and or variogram \verb'gv' with the model built. The \emph{clamp} argument, when set to \verb'TRUE', sets all negative values and values higher than one to zero and one, respectively. The object built, \verb'int.krig' has two columns: one with the predicted values ($Z$) and the other with standard deviation of the interpolation ($sd$).
+For the \verb'krig' function we have used the lineage classification, the sample coordinates in column 1 and 2 from \verb'vipers' table, the \verb'grid' table defining the area to interpolate and or variogram \verb'gv' with the model built. Note that we cancel the verbosity of the function which defaults to TRUE and displays a percentage of the interpolation process. The \emph{clamp} argument, when set to \verb'TRUE', sets all negative values and values higher than one to zero and one, respectively. The object built, \verb'int.krig' has two columns: one with the predicted values ($Z$) and the other with standard deviation of the interpolation ($sd$).
 
 \emph{Phylin} has also plotting functions to ease the plotting of interpolation surfaces. With some experience with R plotting functions, you might want to use the information directly that you can assess in the \verb'int.krig1' in conjunction with the \verb'grid' centroids. 
 

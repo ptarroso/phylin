@@ -9,7 +9,7 @@
     nonlinear least squares.
 }
 \usage{
-gv.model(gv, model='spherical', sill = NA, range=NA, nugget = 0, slope=NA,
+gv.model(gv, model='spherical', sill = NA, range=NA, nugget = 0,
          ctrl=nls.control())
 }
 \arguments{
@@ -30,9 +30,6 @@ gv.model(gv, model='spherical', sill = NA, range=NA, nugget = 0, slope=NA,
   \item{nugget}{
     Intercept in the y-axis. Defaults to 0.
 }
-  \item{slope}{
-    Slope parameter for the linear model. Defaults to NA.
-}
   \item{ctrl}{
     Nls control object for the fitting procedure. (check ?nls.control for more
     details).
@@ -40,44 +37,64 @@ gv.model(gv, model='spherical', sill = NA, range=NA, nugget = 0, slope=NA,
 }
 \details{
     This function fits a model to the data, either by estimating the model
-    parameters using nonlinear least squares or by user provided values. 
+    parameters using nonlinear least squares or by user provided values.
+    Notice that parameters with NA will be estimated by the nls function
+    and parameters with values given are not estimated (by default, the
+    nugget is not estimated and set to zero).
     The variogram model can be plotted using 'plot' function or used to predict
     to a new set of values using 'predict'. It is used to define weights for 
     the krigging interpolation.
 
     The parameters of the semi-variogram model (\eqn{\gamma}{y}) are the 
-    distance (\eqn{h}), range (\eqn{a}), sill (\eqn{c}), and nugget (\eqn{c_0}{c0}).
+    distance (\eqn{h}), range (\eqn{a}), sill (\eqn{c = c_0 + c_1};
+    where \eqn{c_1} is the partial sill), and nugget
+    (\eqn{c_0}{c0}).
     The models available are:
 
     \enumerate{ 
 
         \item{gaussian: 
-              \deqn{\gamma(h) = c_0 + (c-c_0) \left(1-exp\left(-3\frac{h^2}
-              {a^2}\right)\right)}{y(h) = c0 + (c-c0)*(1-exp(-3*h**2/a**2))}}
+              \deqn{\gamma(h) = c_0 + c_1 \left(1-exp\left(-3\frac{h^2}
+              {a^2}\right)\right)}{y(h) = c0 + c1*(1-exp(-3*h**2/a**2))}}
         \item{exponential: 
-              \deqn{\gamma(h) = c_0 + (c-c_0) \left(1-exp\left(-\frac{h}{a}
-              \right)\right)}{y(h) = c0 + (c-c0) * (1-exp(-h/a))}}
+              \deqn{\gamma(h) = c_0 + c_1 \left(1-exp\left(-\frac{h}{a}
+              \right)\right)}{y(h) = c0 + c1 * (1-exp(-h/a))}}
         \item{spherical:
               \deqn{ \gamma(h) = \left\{
                 \begin{array}{ll}
-                    c_0 + (c-c_0)\left(\frac{3h}{2a}-\frac{h^3}{2a^3}\right) &
-                    0 < h < a \\
-                    c & h \ge a
-                \end{array}\right. }{y(h) = c0 + (c-c0)*(((3*h)/(2*a))-(x**3/
-                (2*a**3))), for 0 < h < a; y(h) = c, for h >= a )}}
-        \item{linear:
+                c_0 + c_1\left(\frac{3}{2}\frac{h}{a} -
+		                   \frac{1}{2}(\frac{h}{a})^3\right) &
+                    0 < h \le a \\
+                    c & h > a
+                    \end{array}\right. }{y(h) = c0 + c1*((3/2)(h/a)-
+		    (1/2)(h/a)**3), for 0 < h <= a; y(h) = c, for h > a )}}
+        \item{pentaspherical:
               \deqn{ \gamma(h) = \left\{
                 \begin{array}{ll}
-                    c_0 + bh & 0 < h < a \\
-                    c & h \ge a
-                \end{array}\right. }{y(h) = c0 + b*h, for 0 < h < a; y(h) = c,
-                for h >= a )}
-                if range is NA, than slope and nugget (intercept) are 
-                estimated using the full range of samples available. If range
-                is set to a distance value, then model parameters are estimated
-                using the pair of points where \eqn{h < a}{h < a}. The final
-                range is obtained using the linear equation with \eqn{
-                \bar{\gamma}(h \ge a)}{the mean of y(h >= a)}.}
+                c_0 + c_1\left(\frac{15}{8}\frac{h}{a} -
+		                   \frac{5}{4}(\frac{h}{a})^3 +
+		                   \frac{3}{8}(\frac{h}{a})^5\right) &
+                    0 < h \le a \\
+                    c & h > a
+                    \end{array}\right. }{y(h) = c0 + c1*((15/8)(h/a)-(5/4)(h/a)**3+(3/8)(h/a)**5), for 0 < h <= a; y(h) = c, for h > a )}}
+        \item{cubic:
+              \deqn{ \gamma(h) = \left\{
+                \begin{array}{ll}
+                c_0 + c_1\left(7(\frac{h}{a})^2 -
+		                \frac{35}{4}(\frac{h}{a})^3 +
+				\frac{7}{2}(\frac{h}{a})^5 -
+				\frac{3}{4}(\frac{h}{a})^7\right) &
+                    0 < h \le a \\
+                    c & h > a
+                    \end{array}\right. }{y(h) = c0 + c1*(7(h/a)**2-(35/4)(h/a)**3+(7/2)(h/a)**5-(3/4)(h/a)**7), for 0 < h <= a; y(h) = c, for h > a )}}	    
+
+	\item{linear:
+              \deqn{ \gamma(h) = \left\{
+                \begin{array}{ll}
+                c_0 + \left(\frac{c_1}{a}h\right) &
+                    0 < h \le a \\
+                    c & h > a
+                    \end{array}\right. }{y(h) = c0 + (c1/a)h, for 0 < h <= a; y(h) = c, for h > a )}}	    
     }
 }
 \value{
