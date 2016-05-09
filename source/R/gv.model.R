@@ -32,7 +32,7 @@ gv.model <- function(gv, model='spherical', sill=NA,
             
         } else if (model == "exponential") {
             ## Fit exponential model (decay increasing form)
-            fit <- nls(y ~ N + (S-N)*(1-exp(-x/(R))),
+            fit <- nls(y ~ N + (S-N)*(1-exp(-3*x/R)),
                        data=dt, control=ctrl, 
                        start=start)
             

@@ -20,7 +20,7 @@ function(object, newdata, ...) {
 
     } else if (model == "exponential") {
         vFUN <- function(x, S, N, R) {
-            N + (S-N) * (1-exp(-x/(R)))
+            N + (S-N) * (1-exp(-3*x/R))
         }
         
     } else if (model == "spherical") {
