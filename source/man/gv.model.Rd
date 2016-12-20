@@ -4,7 +4,7 @@
     Fit a model to the semi-variogram.
 }
 \description{
-    Fits a model to a semi-variogram contructed with 
+    Fits a model to a semi-variogram contructed with
     \code{\link{gen.variogram}}. Parameters for each model are estimated by
     nonlinear least squares.
 }
@@ -17,7 +17,7 @@ gv.model(gv, model='spherical', sill = NA, range=NA, nugget = 0,
     'gv' object from the \code{\link{gen.variogram}} function.
 }
   \item{model}{
-    Model to fit the data. Available models are spherical (default), 
+    Model to fit the data. Available models are spherical (default),
     gaussian, exponential or linear. See details.
 }
   \item{sill}{
@@ -42,23 +42,23 @@ gv.model(gv, model='spherical', sill = NA, range=NA, nugget = 0,
     and parameters with values given are not estimated (by default, the
     nugget is not estimated and set to zero).
     The variogram model can be plotted using 'plot' function or used to predict
-    to a new set of values using 'predict'. It is used to define weights for 
+    to a new set of values using 'predict'. It is used to define weights for
     the krigging interpolation.
 
-    The parameters of the semi-variogram model (\eqn{\gamma}{y}) are the 
+    The parameters of the semi-variogram model (\eqn{\gamma}{y}) are the
     distance (\eqn{h}), range (\eqn{a}), sill (\eqn{c = c_0 + c_1};
     where \eqn{c_1} is the partial sill), and nugget
     (\eqn{c_0}{c0}).
     The models available are:
 
-    \enumerate{ 
+    \enumerate{
 
-        \item{gaussian: 
+        \item{gaussian:
               \deqn{\gamma(h) = c_0 + c_1 \left(1-exp\left(-3\frac{h^2}
               {a^2}\right)\right)}{y(h) = c0 + c1*(1-exp(-3*h**2/a**2))}}
-        \item{exponential: 
-              \deqn{\gamma(h) = c_0 + c_1 \left(1-exp\left(-\frac{h}{a}
-              \right)\right)}{y(h) = c0 + c1 * (1-exp(-h/a))}}
+        \item{exponential:
+              \deqn{\gamma(h) = c_0 + c_1 \left(1-exp\left(-\frac{3h}{a}
+              \right)\right)}{y(h) = c0 + c1 * (1-exp(-3h/a))}}
         \item{spherical:
               \deqn{ \gamma(h) = \left\{
                 \begin{array}{ll}
@@ -86,7 +86,7 @@ gv.model(gv, model='spherical', sill = NA, range=NA, nugget = 0,
 				\frac{3}{4}(\frac{h}{a})^7\right) &
                     0 < h \le a \\
                     c & h > a
-                    \end{array}\right. }{y(h) = c0 + c1*(7(h/a)**2-(35/4)(h/a)**3+(7/2)(h/a)**5-(3/4)(h/a)**7), for 0 < h <= a; y(h) = c, for h > a )}}	    
+                    \end{array}\right. }{y(h) = c0 + c1*(7(h/a)**2-(35/4)(h/a)**3+(7/2)(h/a)**5-(3/4)(h/a)**7), for 0 < h <= a; y(h) = c, for h > a )}}
 
 	\item{linear:
               \deqn{ \gamma(h) = \left\{
@@ -94,7 +94,7 @@ gv.model(gv, model='spherical', sill = NA, range=NA, nugget = 0,
                 c_0 + \left(\frac{c_1}{a}h\right) &
                     0 < h \le a \\
                     c & h > a
-                    \end{array}\right. }{y(h) = c0 + (c1/a)h, for 0 < h <= a; y(h) = c, for h > a )}}	    
+                    \end{array}\right. }{y(h) = c0 + (c1/a)h, for 0 < h <= a; y(h) = c, for h > a )}}
     }
 }
 \value{
