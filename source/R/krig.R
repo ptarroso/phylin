@@ -1,5 +1,6 @@
 krig <- function(values, coords, grid, gv, distFUN=geo.dist, ...,
-                     m=NA, cv=FALSE, clamp=FALSE, verbose=TRUE) {
+                     m=NA, cv=FALSE, clamp=FALSE, neg.weights=TRUE,
+                     verbose=TRUE) {
 
     if (!is.vector(values)) stop("Values must be a vector.")
 
@@ -7,7 +8,7 @@ krig <- function(values, coords, grid, gv, distFUN=geo.dist, ...,
         ## Attempt coercion to data.frame
         grid <- as.data.frame(grid)
     }
-    
+
     # more error checking
     if (length(values) != nrow(coords)) {
         stop('Number of values different from number of locations!')
@@ -30,7 +31,7 @@ krig <- function(values, coords, grid, gv, distFUN=geo.dist, ...,
     ## NOTE: (from) pixels on rows, (to) samples on columns
     grdDist <- as.matrix(distFUN(from=grid, to=coords, ...))
 
-    intpl <- .krig(values, C, grdDist, gv, m, clamp, verbose)
+    intpl <- .krig(values, C, grdDist, gv, m, clamp, neg.weights, verbose)
 
     if (cv) {
         cv <- .kCrossValid(values, C, gv, m, clamp)
@@ -41,12 +42,12 @@ krig <- function(values, coords, grid, gv, distFUN=geo.dist, ...,
     }
 }
 
-.krig <- function(values, C, grdDist, gv,
-                  m=NA, clamp=FALSE, verbose=FALSE) {
+.krig <- function(values, C, grdDist, gv, m=NA, clamp=FALSE,
+                  neg.weights=TRUE, verbose=FALSE) {
 
     n <- length(values)   # number of samples
     ni <- nrow(grdDist) # number of locations to interpolate
-    
+
     sill <- gv$model$sill
 
     Cc <- sill - predict(gv, C)
@@ -71,7 +72,16 @@ krig <- function(values, coords, grid, gv, distFUN=geo.dist, ...,
             D <- c(D, 1)
 
         w <- iC %*% D
-        
+
+        if (neg.weights) {
+            ## Negative weigths correction
+            avg.w <- mean(abs(w)[w<0])
+            avg.C <- mean(D[w<0])
+            w[w<0] <- 0
+            w[w < avg.w & D < avg.C] <- 0
+            w <- w / sum(w)
+        }
+
         if (is.na(m))
             Z[i] <- sum(values*w[1:n, 1]) else
             Z[i] <- m + sum((values-m)*w[,1])
@@ -90,13 +100,13 @@ krig <- function(values, coords, grid, gv, distFUN=geo.dist, ...,
 }
 
 .kCrossValid <- function(values, C, gv, m, clamp) {
-    
-  
+
+
     ## Perform cross validation and mean squared error
     cv <- matrix(NA, length(values), 2)
     colnames(cv) <- c('value', 'predicted')
     for (i in 1:length(values)) {
-        cv.k <- .krig(values[-i], C[-i,-i], t(as.matrix(C[i,-i])), 
+        cv.k <- .krig(values[-i], C[-i,-i], t(as.matrix(C[i,-i])),
                      gv=gv, m=m, clamp=clamp, verbose=FALSE)
         cv[i,] <- c(values[i], cv.k[1,1])
     }
