@@ -73,7 +73,7 @@ krig <- function(values, coords, grid, gv, distFUN=geo.dist, ...,
 
         w <- iC %*% D
 
-        if (neg.weights) {
+        if (!neg.weights) {
             ## Negative weigths correction
             avg.w <- mean(abs(w)[w<0])
             avg.C <- mean(D[w<0])
