@@ -1,14 +1,5 @@
 .gen.variogram.multi <-
-function(x, multiY, lag = mean(x)/sqrt(nrow(x)), tol=lag/2,
-         lmax = NA, bootstraps = 999, verbose=TRUE) {
-    
-    ## some variable checking
-    if (!(class(x) == "matrix"))
-        x <- as.matrix(x)
-    
-    if (!class(multiY) == "list")
-        stop(paste("multiY must be a list with multiple genetic",
-                   " distance matrices."))
+function(x, multiY, lag, tol, lmax = NA, bootstraps = 999, verbose=TRUE) {
 
     ## Variable to hold the distribution of values
     distrib <- NULL
@@ -16,11 +7,6 @@ function(x, multiY, lag = mean(x)/sqrt(nrow(x)), tol=lag/2,
 
     for (i in 1:n) {
         y <- multiY[[i]]
-
-        if (!(is.null(rownames(x)) | is.null(colnames(x))))
-            ## attempt to order the genetic distance with real dist
-            ## matrix dimnames, if names exist in x.
-            y <- y[rownames(x), colnames(x)]
 
         ## build the variogram
         gv <- .gen.variogram.single(x, y, lag=lag, tol=tol, lmax=lmax)
@@ -31,7 +17,7 @@ function(x, multiY, lag = mean(x)/sqrt(nrow(x)), tol=lag/2,
 
         ## Populate distribution
         distrib[,i] <- gv$gamma
-        
+
         if (verbose) {
             ## Displays the error evolution
             ## error is the sum of squared differences of the median
@@ -67,6 +53,6 @@ function(x, multiY, lag = mean(x)/sqrt(nrow(x)), tol=lag/2,
                              probs=c(0.05, 0.975), na.rm =TRUE)
 
     }
-    
-    return(gv)        
+
+    return(gv)
 }
