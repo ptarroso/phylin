@@ -1,5 +1,5 @@
 print.gv <-
-function(x) {
+function(x, ...) {
     ## check if gv is multi
     multi <- FALSE
     if ("gamma.mat" %in% names(x)) multi <- TRUE
