@@ -8,7 +8,7 @@
   with user defined lag parameters.
 }
 \usage{
-gen.variogram(x, y, lag = mean(x)/sqrt(nrow(x)), tol=lag/2, lmax = NA,
+gen.variogram(x, y, lag = quantile(as.matrix(x), 0.05), tol=lag/2, lmax = NA,
               bootstraps = 999, verbose = FALSE)
 }
 \arguments{
@@ -24,8 +24,8 @@ gen.variogram(x, y, lag = mean(x)/sqrt(nrow(x)), tol=lag/2, lmax = NA,
     used to calculate lag centers from 0 to 'lmax'.
   }
   \item{tol}{
-    Tolerance for the lag center to search for pairs ('lag'-'tol', 
-    'lag'+'tol'). 
+    Tolerance for the lag center to search for pairs ('lag'-'tol',
+    'lag'+'tol').
   }
   \item{lmax}{
     Maximum distance for lag centers. Pairs with distances higher than
@@ -48,10 +48,10 @@ gen.variogram(x, y, lag = mean(x)/sqrt(nrow(x)), tol=lag/2, lmax = NA,
   semi-variance. The formula to calculate semi-variance,
   \eqn{\gamma(h)}, is:
 
-        \deqn{\gamma(h) = {\frac{1}{2 n(h)}} \sum_{i=1}^{n}[z(x_i + h) - 
+        \deqn{\gamma(h) = {\frac{1}{2 n(h)}} \sum_{i=1}^{n}[z(x_i + h) -
         z(x_i)]^2}{y(h) = 1/(2*n(h)) * sum((z(xi+h) - z(xi))**2)}
 
-   where \eqn{n(h)} is the number of pairs with the lag distance \eqn{h} 
+   where \eqn{n(h)} is the number of pairs with the lag distance \eqn{h}
    between them, and \eqn{z} is the value of the sample \eqn{x} at the
    the location \eqn{i}. The difference between sample
    \eqn{z(x_i+h)}{x(xi+h)} and sample \eqn{z(x_i)}{x(xi)} is assumed to
@@ -60,7 +60,7 @@ gen.variogram(x, y, lag = mean(x)/sqrt(nrow(x)), tol=lag/2, lmax = NA,
    Multiple genetic distance matrices can be used. In this case, a
    variogram is computed for each genetic distance and the results
    summarised by the median and a 95\% confidence interval calculated
-   with bootstraps. 
+   with bootstraps.
 }
 \value{
     Returns a 'gv' object with the input data, lag centers and semi-variance.
