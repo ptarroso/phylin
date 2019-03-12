@@ -2,10 +2,11 @@ exportPattern("^[[:alpha:]]")
 S3method(plot, gv)
 S3method(predict, gv)
 S3method(summary, gv)
+S3method(print, gv)
 importFrom("grDevices", "heat.colors")
 importFrom("graphics", "axis", "box", "image", "lines", "par",
            "plot.new", "plot.window", "points", "rect", "title",
-           "arrows")
-importFrom("stats", "coef", "dist", "na.exclude", "nls",
+           "arrows", "mtext")
+importFrom("stats", "coef", "dist", "na.exclude", "nls", "as.dist",
            "nls.control", "predict", "sd", "median", "quantile")
 importFrom("utils", "combn", "installed.packages")

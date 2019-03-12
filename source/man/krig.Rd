@@ -9,7 +9,7 @@
 }
 \usage{
 krig(values, coords, grid, gv, distFUN = geo.dist, ..., m=NA, cv=FALSE,
-     clamp = FALSE, neg.weights = TRUE, verbose = TRUE)
+     neg.weights = TRUE, clamp = FALSE, verbose = TRUE)
 }
 \arguments{
   \item{values}{
@@ -44,16 +44,16 @@ krig(values, coords, grid, gv, distFUN = geo.dist, ..., m=NA, cv=FALSE,
   \item{cv}{
     A logical value to perform cross validation of the interpolation.
 }
-\item{clamp}{
-    A logical value indicating if Z values will be adjusted to the interval
-    [0,1].
-}
 \item{neg.weights}{
     A logical value indicating if negative weights are allowed in the
     calculation. If FALSE, negative weights are corrected and eliminating the
     need for clamping. See details.
 }
-  \item{verbose}{
+\item{clamp}{
+    A logical value indicating if Z values will be adjusted to the interval
+    [0,1].
+}
+\item{verbose}{
     A logical indicating if the function should be verbose.
 }
 }

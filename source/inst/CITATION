@@ -1,0 +1,34 @@
+citHeader("To cite package 'phylin' in publications use:")
+
+citEntry(entry = "Article",
+  title        = "{phylin}: an R package for phylogeographic interpolation",
+  author       = personList(as.person("Pedro Tarroso"),
+                   as.person("Guillermo Velo-Anton"),
+                   as.person("Silvia B Carvalho")),
+  journal      = "Molecular Ecology Resources",
+  year         = "2015",
+  volume       = "15",
+  number       = "2",
+  pages        = "349-357",
+  url          = "https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.12312",
+
+  textVersion  =
+  paste("Tarroso, P., Velo-Anton, G., & Carvalho, S. B. (2015).",
+        "PHYLIN: an R package for phylogeographic interpolation.", 
+        "Molecular Ecology Resources, 15(2), 349-357.")
+)
+
+citEntry(entry = "Article",
+  title        = "{phylin} 2.0: Extending the phylogeographic interpolation method to include uncertainty and user-defined distance metrics",
+  author       = personList(as.person("Pedro Tarroso"),
+                   as.person("Silvia B Carvalho"), 
+                   as.person("Guillermo Velo-Anton")),
+  journal      = "Molecular Ecology Resources",
+  year         = "2019",
+  volume       = "in press",
+
+  textVersion  =
+  paste("Tarroso, P., Carvalho, S. B. & Velo-Anton, G. (2019).",
+        "PHYLIN 2.0: Extending the phylogeographic interpolation method to include uncertainty and user-defined distance metrics.", 
+        "Molecular Ecology Resources, in press.")
+)

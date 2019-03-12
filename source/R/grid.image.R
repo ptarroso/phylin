@@ -1,6 +1,6 @@
-grid.image <- 
-function(intpl, grid, breaks=10, ic=1, colFUN=heat.colors, 
-         main=colnames(intpl)[ic], xlab=colnames(grid)[1], 
+grid.image <-
+function(intpl, grid, breaks=10, ic=1, colFUN=heat.colors,
+         main=colnames(intpl)[ic], xlab=colnames(grid)[1],
          ylab=colnames(grid)[2], sclab=NA, ...) {
 
     x <- sort(unique(grid[,1]))
@@ -8,29 +8,29 @@ function(intpl, grid, breaks=10, ic=1, colFUN=heat.colors,
     res <- c(diff(x[1:2]), diff(y[1:2]))
     rng.x <- range(x)
     rng.y <- range(y)
-    
+
     if (is.vector(intpl)) {
         # vector found, ignore ic value.
         mat <- tapply(intpl, list(grid[,1], grid[,2]), mean)
     } else {
-        if (is.numeric(ic) & ic > ncol(intpl)) 
+        if (is.numeric(ic) & ic > ncol(intpl))
             stop("ic cannot be higher than columns available.")
         if (is.character(ic) & !(ic %in% colnames(intpl)))
-            stop("ic does not correspond to any column name.")     
+            stop("ic does not correspond to any column name.")
         mat <- tapply(intpl[,ic], list(grid[,1], grid[,2]), mean)
     }
 
     # plot scale first
-    par(fig = c(0,1,0,0.3), ...)
     plot.new()
+    par(fig = c(0,1,0,0.3), ...)
     plot.window(range(mat, na.rm=TRUE), c(0,1))
 
     #Automatic scale number of breaks if binary data is found
     test <- na.exclude(unique(as.vector(mat)))
     if (length(test) == 2) breaks <- 1
 
-    sx <- seq(min(mat, na.rm=TRUE), 
-              max(mat, na.rm=TRUE), 
+    sx <- seq(min(mat, na.rm=TRUE),
+              max(mat, na.rm=TRUE),
               length.out=breaks+1)
     c.len <- diff(range(sx))/breaks
 
@@ -47,16 +47,16 @@ function(intpl, grid, breaks=10, ic=1, colFUN=heat.colors,
         corr.pos <- c.len*0.5
     }
 
-    image(sx, 1, matrix(seq(0,1,length.out=breaks+1)), 
+    image(sx, 1, matrix(seq(0,1,length.out=breaks+1)),
           col=colFUN(breaks+1), add=T)
-    axis(1, at = lbl.s-corr.pos, labels = round(lbl.s, 2), 
+    axis(1, at = lbl.s-corr.pos, labels = round(lbl.s, 2),
          cex.axis = par('cex')*0.75)
 
     usr <- par('usr')
     if (usr[1] < min(sx) - c.len*0.5) usr[1] = min(sx) - c.len*0.5
     if (usr[2] > max(sx) + c.len*0.5) usr[2] = max(sx) + c.len*0.5
     rect(usr[1], usr[3], usr[2], usr[4])
-    axis(1, at = mean(sx), labels = sclab, pos = -1, tick = FALSE, 
+    axis(1, at = mean(sx), labels = sclab, pos = -1, tick = FALSE,
          cex.axis = par('cex')*0.75)
 
     # plot interpolation results
@@ -66,7 +66,7 @@ function(intpl, grid, breaks=10, ic=1, colFUN=heat.colors,
     plot.window(rng.x, rng.y, asp=1)
 
     # plot matrix
-    image(x, y, mat, col=colFUN(breaks+1), add=TRUE) 
+    image(x, y, mat, col=colFUN(breaks+1), add=TRUE)
 
     # plot axis
     lbl.x <- pretty(x)
@@ -91,4 +91,3 @@ function(intpl, grid, breaks=10, ic=1, colFUN=heat.colors,
 
 
 }
-

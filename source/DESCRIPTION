@@ -1,8 +1,8 @@
 Package: phylin
 Type: Package
 Title: Spatial Interpolation of Genetic Data
-Version: 1.2.2
-Date: 2017-02-06
+Version: 2.0
+Date: 2019-03-12
 Author: Pedro Tarroso, Guillermo Velo-Anton, Silvia Carvalho
 Maintainer: Pedro Tarroso <ptarroso@cibio.up.pt>
 Suggests: geometry,raster,gdistance
@@ -16,10 +16,4 @@ Description: The spatial interpolation of genetic distances between
 	     it has functions for IDW interpolation using genetic data
 	     and midpoints.
 License: GPL (>= 2)
-URL: http://www.r-project.org,
-        http://webpages.icav.up.pt/pessoas/ptarroso/phylin/phylin.html,
-	https://github.com/ptarroso/phylin
-Packaged: 2014-07-25 14:47:33 UTC; pedro
-NeedsCompilation: no
-Repository: CRAN
-Date/Publication: 2014-07-25 18:42:31
+URL: https://www.r-project.org,	https://github.com/ptarroso/phylin

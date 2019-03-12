@@ -67,8 +67,12 @@ function(x, line.res=100, pch=1,
     if (legend) {
         leg <- pretty(x$n)
         leg[1] <- 1
-        if (is.na(leg.x)) leg.x = (1-0.1*ncol*1.1) * diff(x.range)
-        if (is.na(leg.y)) leg.y = 0.06/sqrt(ncol) * length(leg) * diff(y.range)
+        if (is.na(leg.x) | is.na(leg.y))
+            leg0 <- legend(0, 0, legend=leg, pch=pch, ncol=ncol,
+                           pt.cex = leg.cex * 2 * leg / lab.n[2],
+                           title = leg.label, plot=FALSE)
+        if (is.na(leg.x)) leg.x = x.range[2] - leg0$rect$w - diff(x.range)*0.01
+        if (is.na(leg.y)) leg.y = y.range[1] + leg0$rect$h + diff(y.range)*0.01
         legend(leg.x, leg.y, legend=leg, pch=pch, ncol=ncol,
                pt.cex = leg.cex * 2 * leg / lab.n[2],
                title = leg.label)

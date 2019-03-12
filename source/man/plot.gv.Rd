@@ -53,7 +53,7 @@
   \item{xlab}{
     The label for x axis.
 }
-  \item{ylab=}{
+  \item{ylab}{
     The label for y axis.
 }
   \item{x.line}{

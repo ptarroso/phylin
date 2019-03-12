@@ -131,7 +131,13 @@ gv$n
 @
 %$
 
-The resulting vector is the $n$ for each lag created. You should also check the summary of the variogram:
+The resulting vector is the $n$ for each lag created. You can print the variogram details
+
+<<details, echo = TRUE>>= 
+gv
+@
+
+but you should also check the summary of the variogram:
 
 <<summary, echo = TRUE>>= 
 summary(gv)
@@ -157,7 +163,13 @@ plot(gv2)
 plot(gv.linear)
 @ 
 
-You should try other models to change the remaining parameters (sill and nugget) to get a good fit. We will continue with the first built model and attributed to \verb'gv' object. After fitting a model you can check the summary table:
+You should try other models to change the remaining parameters (sill and nugget) to get a good fit. We will continue with the first built model and attributed to \verb'gv' object. You can check the variogram and model details by simply printing the \verb'gv' object:
+
+<<details, echo = TRUE>>= 
+gv
+@
+
+As you can see, in the plot title the sill is rounded to the fourth decimal place. In the details you can check the real sill value. You should also check the summary table:
 
 <<summary, echo = TRUE>>= 
 summary(gv)
@@ -173,13 +185,14 @@ The spatial interpolation in \emph{phylin} is achieved by kriging. This method u
 
 <<lin, echo = TRUE>>=
 lin <- as.integer(vipers$lin == 1) 
-int.krig <- krig(lin, vipers[,1:2], grid, gv, clamp = TRUE, 
+int.krig <- krig(lin, vipers[,1:2], grid, gv, neg.weights = FALSE, 
                  verbose=FALSE)
 @
 
 %$
 
-For the \verb'krig' function we have used the lineage classification, the sample coordinates in column 1 and 2 from \verb'vipers' table, the \verb'grid' table defining the area to interpolate and or variogram \verb'gv' with the model built. Note that we cancel the verbosity of the function which defaults to TRUE and displays a percentage of the interpolation process. The \emph{clamp} argument, when set to \verb'TRUE', sets all negative values and values higher than one to zero and one, respectively. The object built, \verb'int.krig' has two columns: one with the predicted values ($Z$) and the other with standard deviation of the interpolation ($sd$).
+For the \verb'krig' function we have used the lineage classification, the sample coordinates in column 1 and 2 from \verb'vipers' table, the \verb'grid' table defining the area to interpolate and or variogram \verb'gv' with the model built. Note that we cancel the verbosity of the function which defaults to TRUE and displays a percentage of the interpolation process. The \emph{neg.weights} argument, when set to \verb'FALSE', all negative weights in the interpolation process are corrected and interpolation will be
+in the range $[0,1]$. This can be also achieved with \emph{clamp} argument, but it is preferable to not allow the negative weights. The object built, \verb'int.krig' has two columns: one with the predicted values ($Z$) and the other with standard deviation of the interpolation ($sd$).
 
 \emph{Phylin} has also plotting functions to ease the plotting of interpolation surfaces. With some experience with R plotting functions, you might want to use the information directly that you can assess in the \verb'int.krig1' in conjunction with the \verb'grid' centroids. 
 
@@ -253,7 +266,7 @@ for (h in regSampling) {
     ct = rep(1, nrow(grid)) # Product of individual cluster/lineage map 
     for (i in unique(lins)) { 
         lin <- as.integer(lins == i) 
-        krg <- krig(lin, vipers[,1:2], grid, gv, clamp = TRUE, verbose=FALSE) 
+        krg <- krig(lin, vipers[,1:2], grid, gv, neg.weights = FALSE, verbose=FALSE) 
 
         # Product of the complement of the cluster ocurrence probability. 
         ct <- ct * (1 - krg$Z)
@@ -284,7 +297,7 @@ for (h in nodeSampling) {
     ct = rep(1, nrow(grid)) # Product of individual cluster/lineage map 
     for (i in unique(lins)) { 
         lin <- as.integer(lins == i) 
-        krg <- krig(lin, vipers[,1:2], grid, gv, clamp = TRUE, verbose=FALSE) 
+        krg <- krig(lin, vipers[,1:2], grid, gv, neg.weights = FALSE, verbose=FALSE) 
 
         # Product of the complement of the cluster ocurrence probability. 
         ct <- ct * (1 - krg$Z) 
@@ -311,7 +324,7 @@ for (h in singleSampling) {
     ct = rep(1, nrow(grid)) # Product of individual cluster/lineage map 
     for (i in unique(lins)) { 
         lin <- as.integer(lins == i) 
-        krg <- krig(lin, vipers[,1:2], grid, gv, clamp = TRUE, verbose=FALSE) 
+        krg <- krig(lin, vipers[,1:2], grid, gv, neg.weights = FALSE, verbose=FALSE) 
 
         # Product of the complement of the cluster ocurrence probability. 
         ct <- ct * (1 - krg$Z)  

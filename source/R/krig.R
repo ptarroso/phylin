@@ -1,5 +1,5 @@
 krig <- function(values, coords, grid, gv, distFUN=geo.dist, ...,
-                     m=NA, cv=FALSE, clamp=FALSE, neg.weights=TRUE,
+                     m=NA, cv=FALSE, neg.weights=TRUE, clamp=FALSE,
                      verbose=TRUE) {
 
     if (!is.vector(values)) stop("Values must be a vector.")
