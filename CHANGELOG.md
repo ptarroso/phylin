@@ -1,3 +1,9 @@
+# Version 2.0
+* User defines the distance metric to be used in the interpolation process
+* Genetic distance uncertainty can be used to build the variogram
+* Overall performance improvement
+* New vignette describing new features in this version
+
 # Version 1.2.2
 * added functions 'print.gv' and 'summary.gv' for fast view of gv object data
 
