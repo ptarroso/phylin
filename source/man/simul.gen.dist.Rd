@@ -13,7 +13,7 @@
     genetic distances of 200 samples.
 }
 \references{
-    Tarroso P. Carvalho S. B. and Velo-Anton G. (2018) Phylin v2: improving the phylogenetic lineage interpolation method including uncertainty and user-defined distance metrics. Submitted.
+    Tarroso, P., Carvalho, S.B. & Velo-Anton, G. (2019). PHYLIN 2.0: Extending the phylogeographic interpolation method to include uncertainty and user-defined distance metrics. Molecular Ecology Resources, in press.
 }
 \examples{
 data(simulations)
