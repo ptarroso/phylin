@@ -11,7 +11,7 @@
 }
 \arguments{
   \item{gv}{
-    An object of class 'gv'.
+    An object with class 'gv'.
 }
 }
 \details{

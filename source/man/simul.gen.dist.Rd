@@ -9,7 +9,7 @@
 }
 \usage{data(simulations)}
 \format{
-    'simul.gen.dist' is an object of 'dist' class containing the simulated
+    'simul.gen.dist' is an object with 'dist' class containing the simulated
     genetic distances of 200 samples.
 }
 \references{

@@ -4,7 +4,7 @@ krig <- function(values, coords, grid, gv, distFUN=geo.dist, ...,
 
     if (!is.vector(values)) stop("Values must be a vector.")
 
-    if (!class(grid) == "data.frame") {
+    if (!("data.frame" %in% class(grid))) {
         ## Attempt coercion to data.frame
         grid <- as.data.frame(grid)
     }

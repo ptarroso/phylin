@@ -25,10 +25,12 @@ citEntry(entry = "Article",
                    as.person("Guillermo Velo-Anton")),
   journal      = "Molecular Ecology Resources",
   year         = "2019",
-  volume       = "in press",
-
+  volume       = "19",
+  number       = "4",
+  pages        = "1081-1094",
+  url          = "https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.13010",
   textVersion  =
   paste("Tarroso, P., Carvalho, S. B. & Velo-Anton, G. (2019).",
         "PHYLIN 2.0: Extending the phylogeographic interpolation method to include uncertainty and user-defined distance metrics.", 
-        "Molecular Ecology Resources, in press.")
+        "Molecular Ecology Resources, 19(2), 1081-1094.")
 )

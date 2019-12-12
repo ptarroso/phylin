@@ -3,23 +3,23 @@ function(x, y, lag = quantile(as.matrix(x), 0.05), tol=lag/2, lmax = NA,
          bootstraps = 999, verbose = FALSE) {
 
     ## Check x class status and attempt coercion to dist
-    if (!(class(x) == "dist"))
+    if (!("dist" %in% class(x)))
             x <- as.dist(x)
 
     ## Check if there are multiple genetic distances and
     ## attempt coercion to dist
     multi <- FALSE
-    if (class(y) == "list") {
+    if ("list" %in% class(y)) {
         multi <- TRUE
         for (i in 1:length(y)) {
-            if (!(class(y[[i]]) == "dist"))
+            if (!("dist" %in% class(y[[i]])))
                 y[[i]] <- as.dist(y[[i]])
 
             if (!all(dim(y[[i]]) == dim(x)))
                 stop("Dimensions of x and y do not match.")
        }
     } else {
-        if (!(class(y) == "dist"))
+        if (!("dist" %in% class(y)))
             y <- as.dist(y)
 
         if (!all(dim(y) == dim(x)))

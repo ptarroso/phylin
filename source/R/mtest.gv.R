@@ -1,7 +1,7 @@
 mtest.gv <-
 function(gv) {
     # test if 
-    if (class(gv) != 'gv') stop("Object must be of class 'gv'")
+    if (!('gv' %in% class(gv))) stop("Object must be of class 'gv'")
 
     if (length(gv$model) == 1) {
         if (is.na(gv$model)) {

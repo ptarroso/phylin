@@ -1,5 +1,6 @@
 \documentclass[a4paper]{article}
 \usepackage{natbib}
+\usepackage{apalike}
 \usepackage[hidelinks]{hyperref}
 \usepackage[utf8]{inputenc} 
 \usepackage{float}
@@ -336,7 +337,7 @@ res.raster <- rasterFromXYZ(data.frame(grid, res))
 
 You can write the raster using the \texttt{writeRaster} function from the \textbf{raster} package. If you save the raster created it will result in a multi-band raster where each band is a lineage occurrence. 
  
-\bibliographystyle{apa}
+\bibliographystyle{apalike}
 \bibliography{references2}
 
 \end{document}
