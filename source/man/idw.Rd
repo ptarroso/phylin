@@ -15,15 +15,13 @@ idw(values, coords, grid, method = "Shepard", p = 2, R = 2, N = 15,
 }
 \arguments{
   \item{values}{
-    A table of points to be interpolated. Table must contain x and y locations,
-    and a column of values to be interpolated.
+    A vector of values per sampled location.
 }
   \item{coords}{
-    A table wit x and y coordinates of the samples.
+    A table containing longitude and latitude of sample locations for each value.
 }
   \item{grid}{
-    Coordinates of locations to interpolate. It is assumed to be in the same 
-    order as 'values' table.
+    Coordinates of locations to interpolate a value.
 }
   \item{method}{
     Method to calculate weights for idw. Should be "Shepard" (default), 

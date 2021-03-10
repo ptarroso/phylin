@@ -19,8 +19,8 @@
 \tabular{ll}{
 Package: \tab phylin\cr
 Type: \tab Package\cr
-Version: \tab 2.0\cr
-Date: \tab 2016-04-27\cr
+Version: \tab 2.0.3\cr
+Date: \tab 2021-03-10\cr
 License: \tab GPL-2\cr
 }
     The kriging algorithm uses a model fitted to the semi-variogram to weight
