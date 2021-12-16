@@ -10,7 +10,7 @@ idw <- function(values, coords, grid, method="Shepard", p=2, R=2, N=15,
     if (method == 1) {
         w <- 1/d.real**p
     } else if (method == 2) {
-        w <- ((R-d.real) / (R*d.real))**p
+        w <- (pmax(0, R-d.real) / (R*d.real))**p
     } else if (method == 3) {
         calcneighbours <- function(x, N) {
             x[order(x)][N:length(x)] <- Inf

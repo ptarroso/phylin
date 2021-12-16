@@ -62,8 +62,8 @@ idw(values, coords, grid, method = "Shepard", p = 2, R = 2, N = 15,
     \item{\emph{Modified Shepard}:
         distances are weighted with a search radius \eqn{r} to calculate the 
         interpolation weights 
-        \deqn{w(x) = \left(\frac{r-d(x, x_i)}{r.d(x, xi)}\right)^p}{
-              w(x) = ((r-d(x, xi)) / (r*d(x, xi)))^p}
+        \deqn{w(x) = \left(\frac{max(0, r-d(x, x_i))}{r.d(x, xi)}\right)^p}{
+              w(x) = (max(0, r-d(x, xi)) / (r*d(x, xi)))^p}
     }
     \item{\emph{Shepard with neighbours}:
         A maximum ammount of \eqn{N} neighbours is allowed to the weight 
